@@ -3,7 +3,7 @@ import string
 import os
 from hashlib import sha256
 from ecdsa import SigningKey, NIST256p, util
-from seed_generator import generate_next_seed
+from deterministic_generator import generate_next_seed
 
 
 def generate_deterministic_key(seed: bytes):
