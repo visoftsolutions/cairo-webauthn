@@ -22,7 +22,7 @@ class VerifySignatureTest(TestFileCreatorInterface):
             rp_id_hash + flags.to_bytes(1, "big") + sign_count.to_bytes(4, "big")
         )
         hash = sha256(generate_deterministic_string().encode()).digest()
-        (sig, px, py) = get_raw_signature(auth_data + hash)
+        (sig, px, py) = get_raw_signature(auth_data + hash, generate_deterministic_string())
 
         text = iterable_as_cairo_array(hash, "hash")
         text += iterable_as_cairo_array(auth_data, "auth_data")
