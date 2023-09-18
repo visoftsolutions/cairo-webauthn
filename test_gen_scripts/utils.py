@@ -42,7 +42,6 @@ def get_good_signature(message: bytes, hash=False):
 
 
 def get_raw_signature(message: bytes, sk):
-    sk = generate_deterministic_key(generate_next_seed())
     vk = sk.get_verifying_key()
     sig = sk.sign_deterministic(message, hashfunc=sha256)
     (px, py) = (vk.pubkey.point.x(), vk.pubkey.point.y())

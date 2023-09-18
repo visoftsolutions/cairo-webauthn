@@ -2,7 +2,8 @@ from hashlib import sha256
 from structure import Test, TestFile, TestFileCreatorInterface
 from utils import get_raw_signature, iterable_as_cairo_array
 
-from deterministic_generator import generate_deterministic_string
+from deterministic_generator import generate_deterministic_string, generate_next_seed
+from utils import generate_deterministic_key
 
 class VerifySignatureTest(TestFileCreatorInterface):
     def __init__(self) -> None:
@@ -22,7 +23,7 @@ class VerifySignatureTest(TestFileCreatorInterface):
             rp_id_hash + flags.to_bytes(1, "big") + sign_count.to_bytes(4, "big")
         )
         hash = sha256(generate_deterministic_string().encode()).digest()
-        (sig, px, py) = get_raw_signature(auth_data + hash, generate_deterministic_string())
+        (sig, px, py) = get_raw_signature(auth_data + hash, generate_deterministic_key(generate_next_seed()))
 
         text = iterable_as_cairo_array(hash, "hash")
         text += iterable_as_cairo_array(auth_data, "auth_data")
