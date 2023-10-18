@@ -6,7 +6,7 @@ use ecdsa::signature::Signer;
 use p256::{ecdsa::Signature, NistP256};
 use rand::rngs::OsRng;
 use serde::Serialize;
-use webauthn_sdk::{
+use cairo_client::{
     arg_val,
     compile::DevCompiler,
     generate::{DevGenerator, DummyGenerator},

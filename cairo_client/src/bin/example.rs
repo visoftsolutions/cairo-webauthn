@@ -4,11 +4,11 @@ use anyhow::Result;
 
 use cairo_felt::Felt252;
 use cairo_lang_runner::Arg;
-use webauthn_sdk::compile::DevCompiler;
-use webauthn_sdk::generate::{DevGenerator, DummyGenerator};
-use webauthn_sdk::logger::{LoggerCompiler, LoggerGenerator, LoggerParser};
-use webauthn_sdk::parse::DevParser;
-use webauthn_sdk::run::DevRunner;
+use cairo_client::compile::DevCompiler;
+use cairo_client::generate::{DevGenerator, DummyGenerator};
+use cairo_client::logger::{LoggerCompiler, LoggerGenerator, LoggerParser};
+use cairo_client::parse::DevParser;
+use cairo_client::run::DevRunner;
 
 fn main() -> Result<()> {
     let generator = LoggerGenerator::new(DummyGenerator::new("cairo", "dev_sdk"));
