@@ -1,11 +1,5 @@
 use std::env;
 
-use cairo_felt::Felt252;
-use cairo_lang_runner::Arg;
-use ecdsa::signature::Signer;
-use p256::{ecdsa::Signature, NistP256};
-use rand::rngs::OsRng;
-use serde::Serialize;
 use cairo_client::{
     arg_val,
     compile::DevCompiler,
@@ -14,6 +8,12 @@ use cairo_client::{
     parse::DevParser,
     run::DevRunner,
 };
+use cairo_felt::Felt252;
+use cairo_lang_runner::Arg;
+use ecdsa::signature::Signer;
+use p256::{ecdsa::Signature, NistP256};
+use rand::rngs::OsRng;
+use serde::Serialize;
 
 use anyhow::Result;
 
