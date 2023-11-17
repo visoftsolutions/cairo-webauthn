@@ -10,14 +10,14 @@ default-run = "main"
 anyhow = "1.0.75"
 clap = { version = "4.3.23", features = ["derive", "env", "string"] }
 termcolor = "1.1"
-scarb = { git = "https://github.com/software-mansion/scarb.git", tag="v2.3.0" }
-cairo-lang-compiler = "2.2.0"
-cairo-lang-sierra-generator = "2.2.0"
-cairo-lang-diagnostics = "2.2.0"
-cairo-lang-runner = "2.2.0"
-cairo-lang-starknet = "2.2.0"
-cairo-lang-utils = {version = "2.2.0", features = ["env_logger"]}
-cairo-lang-sierra = "2.2.0"
+scarb = { git = "https://github.com/software-mansion/scarb.git", tag="v2.3.1" }
+cairo-lang-compiler = "2.3.1"
+cairo-lang-sierra-generator = "2.3.1"
+cairo-lang-diagnostics = "2.3.1"
+cairo-lang-runner = "2.3.1"
+cairo-lang-starknet = "2.3.1"
+cairo-lang-utils = {version = "2.3.1", features = ["env_logger"]}
+cairo-lang-sierra = "2.3.1"
 cairo-felt = "0.8.7"
 passkey = "0.1.0"
 url = "2.4.1"

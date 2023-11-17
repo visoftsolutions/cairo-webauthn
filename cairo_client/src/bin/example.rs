@@ -11,7 +11,7 @@ use cairo_felt::Felt252;
 use cairo_lang_runner::Arg;
 
 fn main() -> Result<()> {
-    let generator = LoggerGenerator::new(DummyGenerator::new("cairo", "dev_sdk"));
+    let generator = LoggerGenerator::new(DummyGenerator::new("init", "init"));
     let compiler = LoggerCompiler::new(generator.generate()?);
     let parser = LoggerParser::new(compiler.compile()?);
     let runner = parser.parse()?;
