@@ -1,6 +1,9 @@
 use std::sync::Arc;
 
-use crate::{rpc_provider::RpcClientProvider, deployer::{Deployable, Declarable}};
+use crate::{
+    deployer::{Declarable, Deployable},
+    rpc_provider::RpcClientProvider,
+};
 use starknet::{
     accounts::{Account, Call, ExecutionEncoding, SingleOwnerAccount},
     core::types::{
@@ -29,7 +32,7 @@ const DEFAULT_UDC_ADDRESS: FieldElement = FieldElement::from_mont([
 pub struct CustomContract;
 
 impl Declarable for CustomContract {
-    fn artifact_str(&self) ->  &str {
+    fn artifact_str(&self) -> &str {
         SIERRA_STR
     }
 }
@@ -110,7 +113,7 @@ where
         vec![
             class_hash,
             FieldElement::ZERO, // salt
-            FieldElement::ZERO,                        // unique
+            FieldElement::ZERO, // unique
             FieldElement::from(constructor_calldata.len()),
         ],
         constructor_calldata,
@@ -128,7 +131,8 @@ where
         .map(|v| {
             std::thread::sleep(std::time::Duration::from_secs(10));
             v
-        }).unwrap())
+        })
+        .unwrap())
 }
 
 pub fn get_account<T>(
