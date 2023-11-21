@@ -15,10 +15,10 @@ use starknet::{
     signers::{LocalWallet, Signer, SigningKey},
 };
 
-const SIERRA_STR: &str = include_str!(
+pub const SIERRA_STR: &str = include_str!(
     "../../cartridge_account/target/dev/cartridge_account_Account.contract_class.json"
 );
-const CASM_STR: &str = include_str!(
+pub const CASM_STR: &str = include_str!(
     "../../cartridge_account/target/dev/cartridge_account_Account.compiled_contract_class.json"
 );
 
