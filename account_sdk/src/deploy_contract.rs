@@ -19,6 +19,13 @@ const CASM_STR: &str = include_str!(
     "../../cartridge_account/target/dev/cartridge_account_Account.compiled_contract_class.json"
 );
 
+const DEFAULT_UDC_ADDRESS: FieldElement = FieldElement::from_mont([
+    15144800532519055890,
+    15685625669053253235,
+    9333317513348225193,
+    121672436446604875,
+]);
+
 pub struct CustomContract;
 
 impl Declarable for CustomContract {
@@ -46,7 +53,7 @@ where
     let (result, account) = declare_contract(rpc_provider, signing_key, address)
         .await
         .unwrap();
-    deploy_contract(address, constructor_calldata, account, result.class_hash).await
+    deploy_contract(constructor_calldata, account, result.class_hash).await
 }
 
 pub async fn declare_contract<T>(
@@ -91,7 +98,6 @@ where
 }
 
 pub async fn deploy_contract<P, S>(
-    address: FieldElement,
     constructor_calldata: Vec<FieldElement>,
     account: SingleOwnerAccount<P, S>,
     class_hash: FieldElement,
@@ -115,7 +121,7 @@ where
         .execute(vec![Call {
             calldata,
             selector: selector!("deployContract"),
-            to: address,
+            to: DEFAULT_UDC_ADDRESS,
         }])
         .send()
         .await
