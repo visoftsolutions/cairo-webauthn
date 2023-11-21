@@ -71,14 +71,14 @@ where
     // Class hash of the compiled CASM class from the `starknet-sierra-compile` command
     let compiled_class: CompiledClass =
         serde_json::from_str(CASM_STR).map_err(|e| e.to_string())?;
-    let compiled_class_hash = compiled_class.class_hash().map_err(|e| e.to_string())?;
+    let casm_class_hash = compiled_class.class_hash().map_err(|e| e.to_string())?;
 
     let account = get_account(rpc_provider, signing_key, address);
 
     // We need to flatten the ABI into a string first
     let flattened_class = contract_artifact.flatten().map_err(|e| e.to_string())?;
 
-    let declaration = account.declare(Arc::new(flattened_class), compiled_class_hash);
+    let declaration = account.declare(Arc::new(flattened_class), casm_class_hash);
 
     Ok(declaration
         .send()
@@ -103,7 +103,7 @@ where
     let calldata = [
         vec![
             class_hash,
-            FieldElement::from_hex_be("0x1").unwrap(), // salt
+            FieldElement::ZERO, // salt
             FieldElement::ZERO,                        // unique
             FieldElement::from(constructor_calldata.len()),
         ],
