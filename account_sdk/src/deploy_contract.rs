@@ -83,7 +83,7 @@ where
         serde_json::from_str(CASM_STR).map_err(|e| e.to_string())?;
     let casm_class_hash = compiled_class.class_hash().map_err(|e| e.to_string())?;
 
-    let account = get_account(rpc_provider, signing_key, address);
+    let account = get_account(rpc_provider, signing_key, address).await;
 
     // We need to flatten the ABI into a string first
     let flattened_class = contract_artifact.flatten().map_err(|e| e.to_string())?;
@@ -135,7 +135,7 @@ where
         .unwrap())
 }
 
-pub fn get_account<T>(
+pub async fn get_account<T>(
     rpc_provider: impl RpcClientProvider<T>,
     signing_key: SigningKey,
     address: FieldElement,
@@ -146,14 +146,14 @@ where
 {
     let client = rpc_provider.get_client();
     let signer = LocalWallet::from(signing_key);
+    let chain_id = rpc_provider
+        .get_client()
+        .chain_id()
+        .await
+        .expect("No connection");
 
-    let mut account = SingleOwnerAccount::new(
-        client,
-        signer,
-        address,
-        rpc_provider.chain_id(),
-        ExecutionEncoding::New,
-    );
+    let mut account =
+        SingleOwnerAccount::new(client, signer, address, chain_id, ExecutionEncoding::New);
 
     // `SingleOwnerAccount` defaults to checking nonce and estimating fees against the latest
     // block. Optionally change the target block to pending with the following line:
