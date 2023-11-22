@@ -11,7 +11,7 @@ use crate::{
     providers::{
         DevnetProvider, KatanaProvider, KatanaRunner, KatanaRunnerConfig, PredeployedClientProvider,
     },
-    providers::{RpcClientProvider, PrefoundedClientProvider},
+    providers::{PrefoundedClientProvider, RpcClientProvider},
     tests::{find_free_port, prefounded_key_and_address},
 };
 
