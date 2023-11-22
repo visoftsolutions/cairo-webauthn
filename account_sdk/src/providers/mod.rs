@@ -23,7 +23,7 @@ mod devnet;
 
 pub use devnet::StarknetDevnet;
 
-pub trait StarknetProvider where Self: RpcClientProvider<HttpTransport> {
+pub trait PredeployedProvider where Self: RpcClientProvider<HttpTransport> {
     fn prefounded_account(&self) -> PredeployedAccount;
     fn predeployed_fee_token(&self) -> PredeployedContract;
     fn predeployed_udc(&self) -> PredeployedContract;
