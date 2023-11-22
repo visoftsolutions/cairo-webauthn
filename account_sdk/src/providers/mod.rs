@@ -14,7 +14,7 @@ pub trait RpcClientProvider<T> {
     fn get_client(&self) -> JsonRpcClient<T>;
 }
 
-pub trait PredeployedProvider
+pub trait PredeployedClientProvider
 where
     Self: RpcClientProvider<HttpTransport>,
 {
