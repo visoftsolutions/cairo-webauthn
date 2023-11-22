@@ -17,7 +17,7 @@ use crate::{
     deploy_contract::{get_account, CustomContract, CASM_STR, SIERRA_STR},
     deployer::{Declarable, TxConfig},
     providers::{KatanaProvider, KatanaRunner, KatanaRunnerConfig},
-    rpc_provider::RpcClientProvider,
+    providers::RpcClientProvider,
     tests::{find_free_port, get_key_and_address_devnet},
 };
 

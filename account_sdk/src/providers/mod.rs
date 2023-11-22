@@ -1,7 +1,5 @@
 use starknet::{core::types::FieldElement, providers::jsonrpc::HttpTransport, signers::SigningKey};
 
-use crate::rpc_provider::RpcClientProvider;
-
 mod devnet;
 mod katana;
 mod katana_runner;
@@ -9,6 +7,12 @@ mod katana_runner;
 pub use devnet::DevnetProvider;
 pub use katana::KatanaProvider;
 pub use katana_runner::{KatanaRunner, KatanaRunnerConfig};
+
+use starknet::providers::JsonRpcClient;
+
+pub trait RpcClientProvider<T> {
+    fn get_client(&self) -> JsonRpcClient<T>;
+}
 
 pub trait PredeployedProvider
 where
