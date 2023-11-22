@@ -18,9 +18,15 @@ pub trait PredeployedClientProvider
 where
     Self: RpcClientProvider<HttpTransport>,
 {
-    fn prefounded_account(&self) -> PredeployedAccount;
     fn predeployed_fee_token(&self) -> PredeployedContract;
     fn predeployed_udc(&self) -> PredeployedContract;
+}
+
+pub trait PrefoundedClientProvider
+where
+    Self: RpcClientProvider<HttpTransport>,
+{
+    fn prefounded_account(&self) -> PredeployedAccount;
 }
 
 pub struct PredeployedAccount {
