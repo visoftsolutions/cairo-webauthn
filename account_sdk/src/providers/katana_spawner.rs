@@ -54,62 +54,31 @@ lazy_static! {
     );
 }
 
-#[derive(Debug, Clone, Deserialize)]
-pub struct KatanaRunnerConfig {
-    pub port: u16,
-    pub katana_path: String,
-    pub log_file_path: String,
-}
-
-impl KatanaRunnerConfig {
-    pub fn from_file(path: impl Into<String>) -> Self {
-        let config_string = fs::read_to_string(path.into()).expect("Failed to read config file");
-
-        toml::from_str(&config_string).expect("Failed to parse config file")
-    }
-
-    pub fn port(mut self, port: u16) -> Self {
-        self.port = port;
-        self.log_file_path = KatanaRunnerConfig::add_port_to_filename(&self.log_file_path, port);
-        self
-    }
-
-    fn add_port_to_filename(file_path: &str, port: u16) -> String {
-        let path = Path::new(file_path);
-        let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
-        let extension = path.extension().and_then(|s| s.to_str()).unwrap_or("");
-
-        let new_file_name = if extension.is_empty() {
-            format!("{}_{}", stem, port)
-        } else {
-            format!("{}_{}.{}", stem, port, extension)
-        };
-        let mut new_path = PathBuf::from(path.parent().unwrap_or_else(|| Path::new("")));
-        new_path.push(new_file_name);
-        new_path.to_string_lossy().into_owned()
-    }
-}
-
 #[derive(Debug)]
-pub struct KatanaRunner {
+pub struct KatanaSpawner {
     child: Child,
     port: u16,
 }
 
-impl KatanaRunner {
-    pub fn new(config: KatanaRunnerConfig) -> Self {
-        receiver
-            .recv_timeout(Duration::from_secs(5))
-            .expect("timeout waiting for server to start");
-
-        KatanaRunner {
-            child,
-            port: config.port,
+impl KatanaSpawner {
+    pub fn new(port: u16) -> Self {
+        let server_config = ServerConfig {
+            apis: vec![ApiKind::Starknet, ApiKind::Katana],
+            port: port,
+            host: "0.0.0.0".into(),
+            max_connections: 100,
+        };
+        let sequencer_config = config.sequencer_config();
+        SequencerConfig {
+            block_time: self.block_time,
+            no_mining: self.no_mining,
         }
     }
 
     pub fn load() -> Self {
-        KatanaRunner::new(KatanaRunnerConfig::from_file("KatanaConfig.toml").port(find_free_port()))
+        KatanaSpawner::new(
+            KatanaRunnerConfig::from_file("KatanaConfig.toml").port(find_free_port()),
+        )
     }
 
     fn wait_for_server_started_and_signal(
@@ -152,8 +121,8 @@ impl From<u16> for KatanaClientProvider {
     }
 }
 
-impl From<&KatanaRunner> for KatanaClientProvider {
-    fn from(value: &KatanaRunner) -> Self {
+impl From<&KatanaSpawner> for KatanaClientProvider {
+    fn from(value: &KatanaSpawner) -> Self {
         KatanaClientProvider { port: value.port }
     }
 }
@@ -166,7 +135,7 @@ impl RpcClientProvider<HttpTransport> for KatanaClientProvider {
     }
 }
 
-impl Drop for KatanaRunner {
+impl Drop for KatanaSpawner {
     fn drop(&mut self) {
         if let Err(e) = self.child.kill() {
             eprintln!("Failed to kill katana subprocess: {}", e);

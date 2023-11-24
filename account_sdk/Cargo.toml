@@ -20,5 +20,9 @@ thiserror = "1"
 futures = "0.3"
 async-trait = "0.1"
 anyhow = "1"
-cairo-lang-starknet = "2"
+cairo-lang-starknet = "2.3.0"
 lazy_static = "1.4.0"
+katana-core = { git = "https://github.com/dojoengine/dojo.git", package = "katana-core" }
+
+[patch."https://github.com/starkware-libs/blockifier"]
+blockifier = { git = "https://github.com/starkware-libs/blockifier" }

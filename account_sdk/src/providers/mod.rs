@@ -11,6 +11,7 @@ use lazy_static::lazy_static;
 pub mod devnet;
 pub mod katana;
 pub mod katana_runner;
+pub mod katana_spawner;
 
 lazy_static! {
     pub static ref UDC_ADDRESS: FieldElement =
